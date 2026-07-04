@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My toolkit</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+</head>
+<body>
+<nav><div class="nav-inner">
+  <a class="brand" href="index.html">Liberated Mind</a>
+  <a href="defusion.html">1 Defusion</a>
+  <a href="self.html">2 Self</a>
+  <a href="acceptance.html">3 Acceptance</a>
+  <a href="presence.html">4 Presence</a>
+  <a href="values.html">5 Values</a>
+  <a href="action.html">6 Action</a>
+  <a href="tests.html">Tests</a>
+  <a href="life.html">Applications</a>
+  <a href="notebook.html">Values session</a>
+  <a href="toolkit.html">My toolkit</a>
+</div></nav>
+<main>
+<header class="page">
+  <div class="kicker">Your personal ACT set</div>
+  <h1>My toolkit</h1>
+  <p class="lede">The book's instruction: after working through all the exercises, choose favorites, then limit your practice to that set for a few months, until each one is automatic enough to reach for in any situation. Add new exercises one at a time; drop what doesn't earn its place.</p>
+</header>
+
+<div id="kit-empty" class="callout tip" style="display:none"><span class="label">Empty so far</span>
+Browse the pivot pages and press "+ Add to my toolkit" on the exercises that fit you. A good starter kit covers all six pivots with one or two exercises each.</div>
+
+<div id="kit-list"></div>
+
+<h2>Daily rhythm (from the book)</h2>
+<ul>
+  <li>Anchor short practices to routine moments: waking, shower, breakfast, midday, evening.</li>
+  <li>Use the "practiced today" checkboxes on exercise pages; they reset every day.</li>
+  <li>When a thought, feeling or urge hooks you mid-day, reach for a toolkit exercise on the spot.</li>
+  <li>Do one new thing daily that requires openness and presence and touches your values.</li>
+  <li>Do one kind thing daily for someone, anonymously if you like.</li>
+</ul>
+
+<div class="score-box" id="today-box"></div>
+
+</main>
+<footer><div class="inner">Personal study guide based on Steven C. Hayes, <em>A Liberated Mind</em> (2019). Toolkit stored only in your browser.</div></footer>
+<script src="js/app.js"></script>
+<script>
+const kit = LS.get('toolkit', []);
+const list = document.getElementById('kit-list');
+if (!kit.length) document.getElementById('kit-empty').style.display = 'block';
+else {
+  const byPivot = {};
+  kit.forEach(x => { (byPivot[x.pivot] = byPivot[x.pivot] || []).push(x); });
+  ['Defusion','Self','Acceptance','Presence','Values','Action'].forEach(p => {
+    if (!byPivot[p]) return;
+    const h = document.createElement('h3'); h.textContent = p; list.appendChild(h);
+    byPivot[p].forEach(x => {
+      const d = document.createElement('div');
+      d.className = 'q-block';
+      d.innerHTML = `<a href="${x.href}">${x.name}</a> <button class="btn-toolkit" style="float:right" data-rm="${x.id}">remove</button>`;
+      list.appendChild(d);
+    });
+  });
+  list.addEventListener('click', e => {
+    const b = e.target.closest('[data-rm]');
+    if (!b) return;
+    LS.set('toolkit', LS.get('toolkit', []).filter(x => x.id !== b.dataset.rm));
+    location.reload();
+  });
+}
+const done = LS.get('done-' + new Date().toISOString().slice(0,10), []);
+document.getElementById('today-box').innerHTML =
+  `<span class="big">${done.length}</span> exercise${done.length === 1 ? '' : 's'} practiced today. The goal is progress, not perfection.`;
+</script>
+</body>
+</html>

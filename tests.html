@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-tests — CFQ and VLQ</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+</head>
+<body>
+<nav><div class="nav-inner">
+  <a class="brand" href="index.html">Liberated Mind</a>
+  <a href="defusion.html">1 Defusion</a>
+  <a href="self.html">2 Self</a>
+  <a href="acceptance.html">3 Acceptance</a>
+  <a href="presence.html">4 Presence</a>
+  <a href="values.html">5 Values</a>
+  <a href="action.html">6 Action</a>
+  <a href="tests.html">Tests</a>
+  <a href="life.html">Applications</a>
+  <a href="notebook.html">Values session</a>
+  <a href="toolkit.html">My toolkit</a>
+</div></nav>
+<main>
+<header class="page">
+  <div class="kicker">Self-tests from the book</div>
+  <h1>Where do you stand right now?</h1>
+  <p class="lede">Two questionnaires the book uses to point your practice: cognitive fusion (chapter 9) and valued living (chapter 13). Answers stay in your browser. Do them alone and honestly; there are no grades here.</p>
+</header>
+
+<h2 id="cfq">Cognitive Fusion Questionnaire (CFQ)</h2>
+<p>Rate how true each statement is for you, from 1 (never true) to 7 (always true). The themes below follow the book's seven items in condensed form.</p>
+<div id="cfq-items"></div>
+<div class="score-box" id="cfq-result">Answer all 7 to see your score.</div>
+
+<h2 id="vlq" style="margin-top:60px">Valued Living Questionnaire (VLQ)</h2>
+<p>Two ratings per life area, both 1–10. <strong>Importance:</strong> how much this area matters to you personally (not every area has to matter). <strong>Last week:</strong> how consistently your actions matched your values in this area over the past seven days. Anchor 10 to the best realistically achievable, not your ideal; rate your own view, not what others would say.</p>
+<table class="vlq">
+<thead><tr><th>Life area</th><th>Importance</th><th>Last week</th><th>×</th></tr></thead>
+<tbody id="vlq-rows"></tbody>
+</table>
+<div class="score-box" id="vlq-result">Fill in both columns to see your score and your work areas.</div>
+
+<div class="callout tip"><span class="label">How to read it</span>
+Work areas are rows where importance is 9–10 but last week scored 6 or less; the highlighted rows above. Start your values work in one of them (the <a href="notebook.html">guided session</a> takes it from there). The overall score is the average of the products; wide testing put the mean at 61. A lower number is a starting point, not a verdict: if self-criticism kicks in, run a defusion exercise. And if most areas came out unimportant, check whether you were honest; the book notes that broad indifference across areas is itself associated with psychological distress.</div>
+
+</main>
+<footer><div class="inner">Personal study guide based on Steven C. Hayes, <em>A Liberated Mind</em> (2019). Questionnaire concepts paraphrased. Results stored only in your browser.</div></footer>
+<script src="js/app.js"></script>
+<script>
+/* CFQ (condensed paraphrase of the 7 themes) */
+const CFQ = [
+  "My thoughts cause me suffering or emotional pain.",
+  "I get so caught up in my thoughts that I can't do the things I most want to do.",
+  "I overanalyze situations well past the point where it helps me.",
+  "I struggle against my own thoughts.",
+  "I get upset with myself for having certain thoughts.",
+  "I tend to get tangled up in my thoughts.",
+  "Even when I know letting go of a negative thought would help, I find it very hard to let go."
+];
+const cfqWrap = document.getElementById('cfq-items');
+const cfqVals = LS.get('cfq', {});
+CFQ.forEach((q, i) => {
+  const div = document.createElement('div');
+  div.className = 'q-block';
+  let scale = '<div class="scale">';
+  for (let v = 1; v <= 7; v++) {
+    const sel = cfqVals[i] === v ? ' sel' : '';
+    scale += `<label class="cfq-l${sel}" data-q="${i}" data-v="${v}">${v}</label>`;
+  }
+  scale += '</div>';
+  div.innerHTML = `<div class="q-text">${i + 1}. ${q}</div>${scale}`;
+  cfqWrap.appendChild(div);
+});
+function cfqScore() {
+  const vals = LS.get('cfq', {});
+  const keys = Object.keys(vals);
+  const box = document.getElementById('cfq-result');
+  if (keys.length < 7) { box.textContent = `Answered ${keys.length} of 7.`; return; }
+  const total = Object.values(vals).reduce((a, b) => a + b, 0);
+  let verdict;
+  if (total < 20) verdict = "Your thinking is fairly flexible. Practice defusion anyway, the way you'd keep exercising a healthy body.";
+  else if (total <= 30) verdict = "Fusion is becoming dominant. The defusion methods will help you get distance from your thoughts.";
+  else verdict = "Fusion dominates. Prioritize daily defusion practice: the starter set, every day, plus on-the-spot moves whenever a thought hooks you.";
+  box.innerHTML = `<span class="big">${total}</span> / 49<br>${verdict} <a href="defusion.html">Go to the defusion exercises →</a>`;
+}
+cfqWrap.addEventListener('click', e => {
+  const l = e.target.closest('.cfq-l');
+  if (!l) return;
+  const vals = LS.get('cfq', {});
+  vals[l.dataset.q] = parseInt(l.dataset.v);
+  LS.set('cfq', vals);
+  cfqWrap.querySelectorAll(`.cfq-l[data-q="${l.dataset.q}"]`).forEach(x => x.classList.remove('sel'));
+  l.classList.add('sel');
+  cfqScore();
+});
+cfqScore();
+
+/* VLQ */
+const AREAS = [
+  "Family (other than marriage or parenting)",
+  "Marriage / couple / intimate relations",
+  "Parenting",
+  "Friends / social life",
+  "Work",
+  "Education / training",
+  "Recreation / fun",
+  "Spirituality",
+  "Citizenship / community life",
+  "Physical self-care (diet, exercise, sleep)",
+  "The environment",
+  "Art / creative expression / aesthetics"
+];
+const tbody = document.getElementById('vlq-rows');
+const vlq = LS.get('vlq', {});
+AREAS.forEach((a, i) => {
+  const tr = document.createElement('tr');
+  const imp = vlq['i' + i] ?? '';
+  const act = vlq['a' + i] ?? '';
+  tr.innerHTML = `<td>${a}</td>
+    <td><input type="number" min="1" max="10" data-k="i${i}" value="${imp}"></td>
+    <td><input type="number" min="1" max="10" data-k="a${i}" value="${act}"></td>
+    <td class="prod" id="prod${i}"></td>`;
+  tbody.appendChild(tr);
+});
+function vlqScore() {
+  const v = LS.get('vlq', {});
+  let sum = 0, n = 0, flags = [];
+  AREAS.forEach((a, i) => {
+    const imp = v['i' + i], act = v['a' + i];
+    const tr = tbody.children[i];
+    const cell = document.getElementById('prod' + i);
+    if (imp >= 1 && act >= 1) {
+      cell.textContent = imp * act;
+      sum += imp * act; n++;
+      const flag = imp >= 9 && act <= 6;
+      tr.classList.toggle('flag', flag);
+      if (flag) flags.push(a);
+    } else { cell.textContent = ''; tr.classList.remove('flag'); }
+  });
+  const box = document.getElementById('vlq-result');
+  if (n < 12) { box.textContent = `Filled ${n} of 12 areas.`; return; }
+  const score = Math.round((sum / 12) * 10) / 10;
+  let msg = `<span class="big">${score}</span> (population mean: 61)<br>`;
+  if (flags.length) msg += `<strong>Your work areas</strong> (importance 9–10, action ≤ 6): ${flags.join('; ')}. Start the <a href="notebook.html">values session</a> with one of them.`;
+  else msg += `No area shows the classic gap (importance 9–10 with action ≤ 6). Pick the area with the biggest importance-action difference and take it into the <a href="notebook.html">values session</a>.`;
+  box.innerHTML = msg;
+}
+tbody.addEventListener('input', e => {
+  const inp = e.target.closest('input[data-k]');
+  if (!inp) return;
+  let val = parseInt(inp.value);
+  if (val > 10) { val = 10; inp.value = 10; }
+  const v = LS.get('vlq', {});
+  if (val >= 1) v[inp.dataset.k] = val; else delete v[inp.dataset.k];
+  LS.set('vlq', v);
+  vlqScore();
+});
+vlqScore();
+</script>
+</body>
+</html>
