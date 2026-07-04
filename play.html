@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground — defusion toys</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+</head>
+<body>
+<nav><div class="nav-inner">
+  <a class="brand" href="index.html">Liberated Mind</a>
+  <a href="defusion.html">1 Defusion</a>
+  <a href="self.html">2 Self</a>
+  <a href="acceptance.html">3 Acceptance</a>
+  <a href="presence.html">4 Presence</a>
+  <a href="values.html">5 Values</a>
+  <a href="action.html">6 Action</a>
+  <a href="play.html">Playground</a>
+  <a href="tests.html">Tests</a>
+  <a href="life.html">Applications</a>
+  <a href="notebook.html">Values session</a>
+  <a href="toolkit.html">My toolkit</a>
+</div></nav>
+<main>
+<header class="page">
+  <div class="kicker">Interactive practice</div>
+  <h1>The playground</h1>
+  <p class="lede">Four of the book's metaphors as things you can do, not just read. Nothing you type leaves your browser. These are serious techniques wearing play clothes; the book insists the humor is part of the method.</p>
+</header>
+
+<div class="toy-panel" id="stream">
+  <h2>🍃 Leaves on a stream</h2>
+  <p>The classic defusion meditation. Type a thought that keeps circling, put it on a leaf, and let the stream do what streams do. Don't push the leaves along and don't hold them back; both are the same mistake.</p>
+  <div class="toy-input">
+    <input type="text" id="leaf-input" maxlength="90" placeholder="type the thought... (e.g. 'I'm behind on everything')">
+    <button id="leaf-go">Set it afloat</button>
+  </div>
+  <div id="streambox" style="position:relative;height:300px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#bfe0ea 0%,#8fc3d6 30%,#5f9fb8 100%)"></div>
+  <p class="toy-note">When a leaf hooks you and you drift downstream after it: that's not failure, that's the exercise. Notice it happened and put the next thought on the next leaf.</p>
+  <div class="ex-actions">
+    <label class="done-check"><input type="checkbox" data-id="toy-stream"> practiced today</label>
+  </div>
+</div>
+
+<div class="toy-panel" id="bus">
+  <h2>🚌 Passengers on the bus</h2>
+  <p>You drive the bus called Your Life. Memories, sensations and thoughts are passengers. Stopping to throw them off means going nowhere; arguing with them means letting go of the wheel. Board yours and keep driving.</p>
+  <div class="toy-input">
+    <input type="text" id="pass-input" maxlength="40" placeholder="who's boarding? (e.g. 'fear of the deadline')">
+    <button id="pass-go">Let them on</button>
+  </div>
+  <div id="busworld">
+    <div class="scenery" style="animation-duration:9s">🌳</div>
+    <div class="scenery" style="animation-duration:13s;animation-delay:-4s">🏠</div>
+    <div class="scenery" style="animation-duration:11s;animation-delay:-7s">🌲</div>
+    <div class="scenery" style="animation-duration:16s;animation-delay:-2s">⛰️</div>
+    <div id="bus">
+      <div class="driver">🧑‍✈️</div>
+      <div style="font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;color:#7a5c10;margin-bottom:6px">YOUR LIFE 🚍 ALL PASSENGERS WELCOME</div>
+      <div class="windows" id="bus-windows"></div>
+      <div class="wheel w1"></div><div class="wheel w2"></div>
+    </div>
+    <div class="road"><div class="dash" style="animation-delay:0s"></div><div class="dash" style="animation-delay:-.7s"></div><div class="dash" style="animation-delay:-1.4s"></div></div>
+  </div>
+  <p class="toy-note">Notice: the bus never stopped once while they boarded. You choose the route; they just ride. The book's paper version: write your rowdiest passengers on cards, carry them for a week, pat the pocket to welcome them aboard.</p>
+  <div class="ex-actions">
+    <label class="done-check"><input type="checkbox" data-id="toy-bus"> practiced today</label>
+  </div>
+</div>
+
+<div class="toy-panel" id="object">
+  <h2>🫧 Thought-o-matic</h2>
+  <p>From the book's "see it as an object": give the thought a size, shape, color, speed and texture, and it becomes something you look <em>at</em> instead of <em>from</em>. Build yours:</p>
+  <div class="toy-input">
+    <input type="text" id="tobj-input" maxlength="60" placeholder="the thought (e.g. 'I always mess this up')">
+  </div>
+  <div class="tobj-controls">
+    <div><label>Size</label><input type="range" id="tc-size" min="60" max="260" value="150"></div>
+    <div><label>Speed / wobble</label><input type="range" id="tc-speed" min="0" max="10" value="4"></div>
+    <div><label>Shape</label><select id="tc-shape">
+      <option value="blob">blob</option><option value="ball">ball</option><option value="brick">brick</option><option value="cloud">cloud</option><option value="spiky">spiky</option>
+    </select></div>
+    <div><label>Color</label><input type="color" id="tc-color" value="#7A4BA0" style="width:100%;height:34px"></div>
+    <div><label>Texture</label><select id="tc-texture">
+      <option value="glossy">glossy</option><option value="fuzzy">fuzzy</option><option value="rough">rough</option>
+    </select></div>
+  </div>
+  <div id="tobj-stage"><div id="tobj">type a thought above</div></div>
+  <p class="toy-note">Answered all five? Now do round two on your <em>reaction</em> to the thought ("I hate that this is here"). Then rebuild the original and check: same size, same color, same speed? It usually isn't.</p>
+  <div class="ex-actions">
+    <label class="done-check"><input type="checkbox" data-id="toy-object"> practiced today</label>
+  </div>
+</div>
+
+<div class="toy-panel" id="melt">
+  <h2>🫠 Word melter</h2>
+  <p>Two techniques in one: rapid repetition until a harsh word turns to noise (the book uses it on self-labels like "bad parent"), and reversal ("Задом наперед"). Type the word that bites:</p>
+  <div class="toy-input">
+    <input type="text" id="melt-input" maxlength="30" placeholder="the word (e.g. 'lazy')">
+    <button id="melt-go">Melt it</button>
+  </div>
+  <div id="melt-stage"><span style="opacity:.5">the word will fill this space, faster and faster, then flip backwards...</span></div>
+  <p class="toy-note">Say it out loud along with the screen if you're alone. Around thirty seconds in, meaning falls off and only sound is left. That's all it ever was: sound, plus your history.</p>
+  <div class="ex-actions">
+    <label class="done-check"><input type="checkbox" data-id="toy-melt"> practiced today</label>
+  </div>
+</div>
+
+<div class="callout tip"><span class="label">Where these come from</span>
+Leaves on a stream and passengers on the bus are canonical ACT exercises referenced throughout the book (chapters 9, 12, 15). The object builder is chapter 9's "see it as an object". The melter combines chapter 9's word reversal with the rapid-repeat practice from the stress section of chapter 15. Full written versions live on the <a href="defusion.html">Defusion</a> page.</div>
+
+</main>
+<footer><div class="inner">Personal study guide based on Steven C. Hayes, <em>A Liberated Mind</em> (2019). Nothing you type leaves your browser.</div></footer>
+<script src="js/app.js"></script>
+<script>
+/* --- Leaves on a stream --- */
+const box = document.getElementById('streambox');
+for (let i = 0; i < 7; i++) {
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  r.style.top = (12 + Math.random() * 76) + '%';
+  r.style.width = (40 + Math.random() * 90) + 'px';
+  r.style.left = '-130px';
+  r.style.position = 'absolute';
+  r.style.animationDuration = (5 + Math.random() * 6) + 's';
+  r.style.animationDelay = (-Math.random() * 6) + 's';
+  box.appendChild(r);
+}
+function launchLeaf(text) {
+  const l = document.createElement('div');
+  l.className = 'leaf';
+  l.textContent = text;
+  l.style.top = (8 + Math.random() * 62) + '%';
+  l.style.animationDuration = (11 + Math.random() * 8) + 's';
+  box.appendChild(l);
+  setTimeout(() => l.remove(), 20000);
+}
+document.getElementById('leaf-go').addEventListener('click', () => {
+  const i = document.getElementById('leaf-input');
+  if (!i.value.trim()) return;
+  launchLeaf(i.value.trim());
+  i.value = ''; i.focus();
+});
+document.getElementById('leaf-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('leaf-go').click(); });
+
+/* --- Bus --- */
+const FACES = ['👹','😱','🙄','😤','👻','🤯','😰','🧌'];
+document.getElementById('pass-go').addEventListener('click', () => {
+  const i = document.getElementById('pass-input');
+  const t = i.value.trim();
+  if (!t) return;
+  const w = document.getElementById('bus-windows');
+  const p = document.createElement('div');
+  p.className = 'pass';
+  p.innerHTML = `<span class="pface">${FACES[Math.floor(Math.random() * FACES.length)]}</span>${t}`;
+  w.appendChild(p);
+  if (w.children.length > 8) w.removeChild(w.firstChild);
+  i.value = ''; i.focus();
+});
+document.getElementById('pass-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('pass-go').click(); });
+
+/* --- Thought object --- */
+const tobj = document.getElementById('tobj');
+function renderTobj() {
+  const text = document.getElementById('tobj-input').value.trim() || 'type a thought above';
+  const size = +document.getElementById('tc-size').value;
+  const speed = +document.getElementById('tc-speed').value;
+  const shape = document.getElementById('tc-shape').value;
+  const color = document.getElementById('tc-color').value;
+  const texture = document.getElementById('tc-texture').value;
+  tobj.textContent = text;
+  tobj.style.width = size + 'px';
+  tobj.style.minHeight = (shape === 'brick' ? size * 0.6 : size) + 'px';
+  tobj.style.fontSize = Math.max(12, size / 11) + 'px';
+  const radii = { blob: '58% 42% 61% 39% / 45% 55% 48% 52%', ball: '50%', brick: '8px', cloud: '48% 52% 46% 54% / 62% 58% 42% 38%', spiky: '18% 82% 22% 78% / 76% 24% 80% 20%' };
+  tobj.style.borderRadius = radii[shape];
+  tobj.style.background = texture === 'glossy'
+    ? `radial-gradient(circle at 30% 25%, #ffffff88, transparent 40%), ${color}`
+    : texture === 'rough'
+    ? `repeating-linear-gradient(45deg, #00000022 0 4px, transparent 4px 8px), ${color}`
+    : color;
+  tobj.style.filter = texture === 'fuzzy' ? 'blur(1.2px)' : 'none';
+  tobj.style.boxShadow = texture === 'fuzzy' ? `0 0 26px ${color}88` : '0 8px 20px rgba(0,0,0,.18)';
+  tobj.style.animation = speed === 0 ? 'none' : `${speed > 5 ? 'wob2' : 'wob1'} ${(11 - speed) / 4}s ease-in-out infinite`;
+}
+['tobj-input','tc-size','tc-speed','tc-shape','tc-color','tc-texture'].forEach(id =>
+  document.getElementById(id).addEventListener('input', renderTobj));
+renderTobj();
+
+/* --- Word melter --- */
+let meltTimer = null;
+document.getElementById('melt-go').addEventListener('click', () => {
+  const word = document.getElementById('melt-input').value.trim();
+  if (!word) return;
+  const stage = document.getElementById('melt-stage');
+  stage.innerHTML = '';
+  clearInterval(meltTimer);
+  let n = 0, delay = 520;
+  const start = Date.now();
+  function drop() {
+    const el = document.createElement('span');
+    const t = (Date.now() - start) / 1000;
+    let w = word;
+    if (t > 18) w = word.split('').reverse().join('');            // flip backwards
+    else if (t > 12 && Math.random() < .5) w = word.split('').sort(() => Math.random() - .5).join(''); // scramble
+    el.textContent = w;
+    el.style.fontSize = (14 + Math.random() * 26) + 'px';
+    el.style.opacity = .4 + Math.random() * .6;
+    el.style.color = ['#f0e9fa','#c9b6e4','#9fd6c3','#e8c98a'][n % 4];
+    stage.appendChild(el);
+    if (stage.children.length > 160) stage.removeChild(stage.firstChild);
+    n++;
+    if (t > 30) {
+      clearInterval(meltTimer);
+      const fin = document.createElement('span');
+      fin.style.cssText = 'width:100%;font-size:18px;color:#9fd6c3;margin-top:10px';
+      fin.textContent = '...just sounds, right? (' + word + ' → ' + word.split('').reverse().join('') + ')';
+      stage.appendChild(fin);
+      return;
+    }
+    delay = Math.max(70, delay * 0.93);
+    clearInterval(meltTimer);
+    meltTimer = setInterval(drop, delay);
+  }
+  meltTimer = setInterval(drop, delay);
+});
+document.getElementById('melt-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('melt-go').click(); });
+</script>
+</body>
+</html>

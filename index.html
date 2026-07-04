@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A Liberated Mind — practice guide</title>
+<title>A Liberated Mind — practice</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
 </head>
@@ -16,6 +16,7 @@
   <a href="presence.html">4 Presence</a>
   <a href="values.html">5 Values</a>
   <a href="action.html">6 Action</a>
+  <a href="play.html">Playground</a>
   <a href="tests.html">Tests</a>
   <a href="life.html">Applications</a>
   <a href="notebook.html">Values session</a>
@@ -23,46 +24,109 @@
 </div></nav>
 <main>
 <header class="page">
-  <div class="kicker">A personal practice guide</div>
-  <h1>Psychological flexibility, walked through step by step</h1>
-  <p class="lede">An interactive study companion to Steven C. Hayes, <em>A Liberated Mind</em> (ACT — Acceptance and Commitment Therapy). Every exercise, self-test, and application here is drawn from the book and rewritten as a walkthrough you can actually do.</p>
+  <div class="kicker">Based on Steven C. Hayes, A Liberated Mind</div>
+  <h1>Your flexibility journey</h1>
+  <p class="lede">Six skills, thirty-eight exercises, one Inner Dictator to outgrow. The goal is progress, not perfection.</p>
 </header>
 
-<h2>The idea in one paragraph</h2>
-<p>Hayes argues that most psychological suffering comes from rigidity: fusing with our thoughts, avoiding our feelings, running on autopilot, defending a story of who we are, losing contact with what we care about, and acting on impulse or habit instead of choice. The voice driving all of this he calls the <em>Inner Dictator</em>: the problem-solving mind applied to places where problem-solving backfires. The way out is six learnable skills, which he calls <strong>pivots</strong>. Each pivot takes the energy inside a healthy yearning that has been redirected into a rigid habit and turns it back toward openness.</p>
-
-<h2>The six pivots</h2>
-<div class="grid">
-  <a class="card" href="defusion.html"><div class="num">Pivot 1 · yearning for coherence</div><h3>Defusion</h3><p>See thoughts as thoughts, put the mind on a leash. 11 exercises + fusion self-test.</p></a>
-  <a class="card" href="self.html"><div class="num">Pivot 2 · yearning to belong</div><h3>Self</h3><p>Step out of your self-story and into the observing "I". 7 exercises.</p></a>
-  <a class="card" href="acceptance.html"><div class="num">Pivot 3 · yearning to feel</div><h3>Acceptance</h3><p>Let feelings be felt; pain becomes a teacher. 4 exercises.</p></a>
-  <a class="card" href="presence.html"><div class="num">Pivot 4 · yearning for orientation</div><h3>Presence</h3><p>Flexible attention to here and now. 6 exercises + the I'm BEAT check.</p></a>
-  <a class="card" href="values.html"><div class="num">Pivot 5 · yearning for meaning</div><h3>Values</h3><p>Choose what you care about. 5 exercises + the VLQ self-test.</p></a>
-  <a class="card" href="action.html"><div class="num">Pivot 6 · yearning for competence</div><h3>Action</h3><p>Build habits that serve your values. 5 exercises + SMART goals.</p></a>
+<div class="hero-stats">
+  <div class="stat"><div class="n" id="st-streak">0</div><div class="l">day streak 🔥</div></div>
+  <div class="stat"><div class="n" id="st-today">0</div><div class="l">practiced today</div></div>
+  <div class="stat"><div class="n" id="st-tried">0<span style="font-size:16px;color:var(--muted)">/38</span></div><div class="l">exercises explored</div></div>
+  <div class="stat"><div class="n" id="st-kit">0</div><div class="l">in my toolkit</div></div>
 </div>
 
-<h2>How to practice (the book's own plan)</h2>
+<div class="daily-card" id="daily-card">
+  <div class="dc-label" id="dc-label">Today's practice card</div>
+  <h3 id="dc-name">...</h3>
+  <p id="dc-gist">...</p>
+  <div class="dc-actions">
+    <a id="dc-link" href="#">Open the full steps</a>
+    <button id="dc-shuffle">Draw another 🎴</button>
+  </div>
+</div>
+
+<h2>The trail</h2>
+<p>One ring per skill. Fill them by trying exercises (check "practiced today" on any exercise you do).</p>
+<div class="trail" id="trail"></div>
+
+<h2>The playground</h2>
+<p>The book's best metaphors, turned into things you can actually play with:</p>
+<div class="toys">
+  <a href="play.html#stream" style="background:linear-gradient(135deg,#4c8ba8,#2c6a86)"><span class="toy-emoji">🍃</span><span class="toy-name">Leaves on a stream</span><span class="toy-sub">Type a thought, set it on a leaf, watch it float off</span></a>
+  <a href="play.html#bus" style="background:linear-gradient(135deg,#d9982a,#b3721b)"><span class="toy-emoji">🚌</span><span class="toy-name">Passengers on the bus</span><span class="toy-sub">Board your worries. Keep driving anyway</span></a>
+  <a href="play.html#object" style="background:linear-gradient(135deg,#7A4BA0,#5a3778)"><span class="toy-emoji">🫧</span><span class="toy-name">Thought-o-matic</span><span class="toy-sub">Give a thought a shape, color and wobble</span></a>
+  <a href="play.html#melt" style="background:linear-gradient(135deg,#39304a,#1e1a24)"><span class="toy-emoji">🫠</span><span class="toy-name">Word melter</span><span class="toy-sub">Repeat a word until it loses its teeth</span></a>
+</div>
+
+<h2>Everything else</h2>
+<div class="grid">
+  <a class="card" href="tests.html"><div class="num">Know your baseline</div><h3>Self-tests</h3><p>Cognitive fusion score + valued living map, auto-scored.</p></a>
+  <a class="card" href="notebook.html"><div class="num">45–60 min guided</div><h3>Values session</h3><p>The full chapter 13 sitting: VLQ, values writing, drawing, pain-into-purpose.</p></a>
+  <a class="card" href="life.html"><div class="num">Part III condensed</div><h3>Applications</h3><p>Cravings, stress, sleep, anxiety, addiction, relationships, work, illness.</p></a>
+  <a class="card" href="toolkit.html"><div class="num">Your personal set</div><h3>My toolkit</h3><p>The exercises you chose, plus your daily rhythm.</p></a>
+</div>
+
+<h2>The idea in one paragraph</h2>
+<p>Hayes argues that most psychological suffering comes from rigidity: fusing with thoughts, avoiding feelings, running on autopilot, defending a self-story, losing contact with what we care about, and acting on habit instead of choice. The voice behind it he calls the <em>Inner Dictator</em>: the problem-solving mind applied where problem-solving backfires. The way out is six learnable skills, the <strong>pivots</strong>: each takes the energy inside a healthy yearning that got redirected into a rigid habit and turns it back toward openness.</p>
+
+<h2>The plan (the book's own)</h2>
 <ol>
-  <li><strong>Weeks 1–2:</strong> work through the pivots in order and do each chapter's <span class="tag starter">starter</span> exercises at least once a day. When a thought hooks you during the day, use one or two on the spot.</li>
-  <li><strong>After the first pass:</strong> come back for the <span class="tag extra">additional</span> exercises and try them all.</li>
-  <li><strong>Then build a toolkit:</strong> pick the exercises that fit you and practice only those for a few months, until they are automatic enough to use anywhere. Add new ones one at a time; drop what doesn't work. That page is <a href="toolkit.html">My toolkit</a>.</li>
-  <li><strong>Keep going for life.</strong> Fusion never retires; the goal is progress, not perfection. Keep finding new areas to apply the skills to: do one new thing daily that requires openness, and one kind thing daily for someone else.</li>
+  <li><strong>Weeks 1–2:</strong> go pivot by pivot, do each starter exercise daily, and grab one on the spot whenever a thought hooks you.</li>
+  <li><strong>Then:</strong> try the additional methods, build your toolkit, and run only that set for a few months until it's automatic.</li>
+  <li><strong>Forever:</strong> one new thing daily that requires openness; one kind thing daily for someone else. Fusion never retires and neither do you.</li>
 </ol>
 
-<div class="callout tip"><span class="label">Skills work as a block</span>
-The six skills reinforce each other. During any hard piece of work: defusion handles judgmental thoughts about your progress, self keeps you acting from meaning rather than social expectation, acceptance carries you when it hurts, presence keeps you on the process instead of the distance to the goal, values remind you why, and action turns it into behavior.</div>
-
-<h2>Start here</h2>
-<ul>
-  <li>Take the two <a href="tests.html">self-tests</a>: cognitive fusion (CFQ) and valued living (VLQ). They tell you where to begin.</li>
-  <li>If your life currently lacks direction or fuel, run the guided <a href="notebook.html">values session</a> first.</li>
-  <li>If specific struggles brought you here (cravings, stress, sleep, anxiety, addiction, relationships, illness), see <a href="life.html">Applications</a>.</li>
-</ul>
-
 <div class="callout warn"><span class="label">Honest framing</span>
-This is a self-made study aid, not therapy and not a replacement for the book. The book itself says: for mental health struggles, use these skills alongside professional help, never instead of it. For eating disorders, seek professional treatment at the first signs. Buy the book; it is worth owning.</div>
+This is a self-made study aid, not therapy and not a replacement for the book. For mental health struggles, the book itself says: use these skills alongside professional help, never instead of it.</div>
 </main>
-<footer><div class="inner">Personal study guide based on Steven C. Hayes, <em>A Liberated Mind: How to Pivot Toward What Matters</em> (2019). All exercises originate from the book; text here is paraphrased and condensed for personal practice. Progress and answers are stored only in your browser (localStorage).</div></footer>
+<footer><div class="inner">Personal study guide based on Steven C. Hayes, <em>A Liberated Mind: How to Pivot Toward What Matters</em> (2019). Paraphrased and condensed for personal practice. All progress lives only in your browser.</div></footer>
 <script src="js/app.js"></script>
+<script src="js/data.js"></script>
+<script>
+/* Stats */
+document.getElementById('st-streak').textContent = currentStreak();
+document.getElementById('st-today').textContent = LS.get('done-' + new Date().toISOString().slice(0,10), []).length;
+const tried = LS.get('tried', []);
+document.getElementById('st-tried').firstChild.textContent = tried.length;
+document.getElementById('st-kit').textContent = LS.get('toolkit', []).length;
+
+/* Trail rings */
+const trail = document.getElementById('trail');
+Object.entries(PIVOTS).forEach(([key, p]) => {
+  const n = EXERCISES.filter(e => e.pivot === key && tried.includes(e.id)).length;
+  const pct = Math.round(n / p.total * 100);
+  const C = 2 * Math.PI * 32;
+  trail.insertAdjacentHTML('beforeend', `
+    <a href="${p.href}">
+      <div class="ring">
+        <svg width="74" height="74"><circle cx="37" cy="37" r="32" fill="none" stroke="#eee6da" stroke-width="6"/>
+        <circle cx="37" cy="37" r="32" fill="none" stroke="${p.color}" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}"/></svg>
+        <div class="emo">${p.emoji}</div>
+      </div>
+      <div class="t-name" style="color:${p.color}">${p.name}</div>
+      <div class="t-pct">${n}/${p.total} tried</div>
+    </a>`);
+});
+
+/* Daily card: deterministic by date, shuffle for another */
+function showCard(ex, label) {
+  const p = PIVOTS[ex.pivot];
+  document.getElementById('dc-label').textContent = label + ' · ' + p.name + ' ' + p.emoji;
+  document.getElementById('dc-name').textContent = ex.name;
+  document.getElementById('dc-gist').textContent = ex.gist;
+  document.getElementById('dc-link').href = p.href;
+  document.getElementById('daily-card').style.background =
+    `linear-gradient(135deg, ${p.color}, #1e1a24)`;
+}
+const daySeed = Math.floor(new Date().getTime() / 86400000);
+showCard(EXERCISES[daySeed % EXERCISES.length], "Today's practice card");
+document.getElementById('dc-shuffle').addEventListener('click', () => {
+  const kit = LS.get('toolkit', []);
+  const pool = kit.length >= 3 ? EXERCISES.filter(e => kit.some(k => k.id === e.id)) : EXERCISES;
+  showCard(pool[Math.floor(Math.random() * pool.length)], 'Drawn from ' + (pool === EXERCISES ? 'the full deck' : 'your toolkit'));
+});
+</script>
 </body>
 </html>

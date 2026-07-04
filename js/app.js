@@ -88,3 +88,43 @@ document.querySelectorAll('.timer').forEach(t => {
     }, 1000);
   });
 });
+
+/* ===== Fun layer: streaks, tried-tracking, confetti ===== */
+function confetti(x, y) {
+  const colors = ['#7A4BA0','#2589C9','#3E8E5A','#C08A17','#D25B4A','#2E7D74'];
+  for (let i = 0; i < 26; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetto';
+    c.style.background = colors[i % colors.length];
+    c.style.left = (x + (Math.random() * 120 - 60)) + 'px';
+    c.style.top = (y - 10) + 'px';
+    c.style.animation = 'confall ' + (0.9 + Math.random() * 1.2) + 's ease-in forwards';
+    c.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2300);
+  }
+}
+function recordPractice(id) {
+  const days = LS.get('practice-days', []);
+  const today = new Date().toISOString().slice(0, 10);
+  if (!days.includes(today)) { days.push(today); LS.set('practice-days', days); }
+  const tried = LS.get('tried', []);
+  if (!tried.includes(id)) { tried.push(id); LS.set('tried', tried); }
+}
+function currentStreak() {
+  const days = new Set(LS.get('practice-days', []));
+  let streak = 0;
+  const d = new Date();
+  if (!days.has(d.toISOString().slice(0, 10))) d.setDate(d.getDate() - 1); // allow "today not yet"
+  while (days.has(d.toISOString().slice(0, 10))) { streak++; d.setDate(d.getDate() - 1); }
+  return streak;
+}
+document.querySelectorAll('.done-check input').forEach(cb => {
+  cb.addEventListener('change', e => {
+    if (cb.checked) {
+      recordPractice(cb.dataset.id);
+      const r = cb.getBoundingClientRect();
+      confetti(r.left, r.top);
+    }
+  });
+});
