@@ -17,9 +17,9 @@
 #sw { position:relative; height:300px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#bfe0ea 0%,#8fc3d6 30%,#5f9fb8 100%); }
 .rip { position:absolute; height:2px; background:rgba(255,255,255,.35); border-radius:2px; animation:ripmove linear infinite; }
 @keyframes ripmove { from{ left:-15%; } to{ left:105%; } }
-.lf { position:absolute; left:-320px; animation:lfdrift linear forwards; }
-.lf-in { max-width:240px; padding:12px 18px; background:linear-gradient(135deg,#6faa54,#4c8a3c); color:#fff; font-size:14px; border-radius:4px 26px 4px 26px; box-shadow:0 4px 10px rgba(0,0,0,.18); font-family:-apple-system,sans-serif; animation:lfbob 4.5s ease-in-out infinite; }
-@keyframes lfdrift { from{ left:-320px; } to{ left:104%; } }
+.lf { position:absolute; left:8px; }
+.lf-in { max-width:240px; padding:12px 18px; background:linear-gradient(135deg,#6faa54,#4c8a3c); color:#fff; font-size:14px; border-radius:4px 26px 4px 26px; box-shadow:0 4px 10px rgba(0,0,0,.18); font-family:-apple-system,sans-serif; animation:lfbob 4.5s ease-in-out infinite, lfdrop .45s ease-out; }
+@keyframes lfdrop { from{ opacity:0; scale:.5; } to{ opacity:1; scale:1; } }
 @keyframes lfbob { 0%,100%{ transform:translateY(0) rotate(-2.5deg);} 50%{ transform:translateY(10px) rotate(2deg);} }
 
 /* bus */
@@ -220,10 +220,12 @@ function launchLeaf(text) {
   l.innerHTML = '<div class="lf-in"></div>';
   l.firstChild.textContent = text;
   l.style.top = LANES[laneIdx++ % LANES.length] + '%';
-  l.style.animationDuration = (26 + Math.random() * 10) + 's';   // ~30 s to cross: watchable
-  l.firstChild.style.animationDelay = (-Math.random() * 4) + 's';
+  l.firstChild.style.animationDelay = (-Math.random() * 4) + 's, 0s';
   sw.appendChild(l);
-  setTimeout(() => l.remove(), 38000);
+  const dist = sw.clientWidth + 40;                              // appear at left edge, drift fully across
+  const drift = l.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(' + dist + 'px)' }],
+    { duration: 26000 + Math.random() * 10000, easing: 'linear', fill: 'forwards' });
+  drift.onfinish = () => l.remove();
 }
 const COACH = [
   'Notice the next thought that shows up. Type it.',
