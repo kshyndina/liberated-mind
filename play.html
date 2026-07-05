@@ -6,6 +6,71 @@
 <title>Playground — defusion toys</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+<style>
+/* page-scoped playground styles */
+.coach { font-family:-apple-system,sans-serif; font-size:14px; color:var(--muted); min-height:22px; margin:10px 2px; transition:opacity .4s; }
+.big-btn { padding:12px 24px; border:none; border-radius:24px; font-size:15px; font-weight:700; cursor:pointer; color:#fff; background:var(--accent); font-family:-apple-system,sans-serif; }
+.big-btn.secondary { background:#e9e2d6; color:#5a5248; }
+.big-btn:disabled { opacity:.45; cursor:default; }
+
+/* stream */
+#sw { position:relative; height:300px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#bfe0ea 0%,#8fc3d6 30%,#5f9fb8 100%); }
+.rip { position:absolute; height:2px; background:rgba(255,255,255,.35); border-radius:2px; animation:ripmove linear infinite; }
+@keyframes ripmove { from{ left:-15%; } to{ left:105%; } }
+.lf { position:absolute; left:-320px; animation:lfdrift linear forwards; }
+.lf-in { max-width:240px; padding:12px 18px; background:linear-gradient(135deg,#6faa54,#4c8a3c); color:#fff; font-size:14px; border-radius:4px 26px 4px 26px; box-shadow:0 4px 10px rgba(0,0,0,.18); font-family:-apple-system,sans-serif; animation:lfbob 4.5s ease-in-out infinite; }
+@keyframes lfdrift { from{ left:-320px; } to{ left:104%; } }
+@keyframes lfbob { 0%,100%{ transform:translateY(0) rotate(-2.5deg);} 50%{ transform:translateY(10px) rotate(2deg);} }
+
+/* bus */
+#bw { position:relative; height:340px; border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#cfe6f5 60%,#9fc98a 60%,#7fb56d 100%); }
+#bw .sc { position:absolute; bottom:128px; font-size:40px; animation:scmove linear infinite; }
+@keyframes scmove { from{ left:105%; } to{ left:-10%; } }
+#bw.stopped .sc, #bw.stopped .dash, #bw.stopped .wheel { animation-play-state:paused; }
+#thebus { position:absolute; bottom:44px; left:50%; transform:translateX(-50%); width:440px; max-width:90%; background:#e8b23a; border-radius:18px 26px 6px 6px; padding:12px 14px 20px; box-shadow:0 8px 16px rgba(0,0,0,.2); }
+#destsign { font-family:-apple-system,sans-serif; font-size:12px; font-weight:800; color:#3b2d05; background:#f7e9c3; border-radius:6px; padding:3px 10px; display:inline-block; margin-bottom:8px; letter-spacing:.05em; }
+#thebus .windows { display:flex; gap:8px; flex-wrap:wrap; min-height:56px; }
+.pass { background:#bfe3f2; border:2px solid #8a6d1f; border-radius:8px; padding:4px 8px; font-size:12px; text-align:center; font-family:-apple-system,sans-serif; max-width:96px; }
+.pass .pface { font-size:22px; display:block; }
+.pass.yelling { outline:3px solid #d25b4a; animation:shake .3s ease infinite; }
+@keyframes shake { 0%,100%{ transform:rotate(0);} 50%{ transform:rotate(3deg);} }
+#thebus .driver { position:absolute; right:16px; top:10px; font-size:26px; }
+.wheel { position:absolute; bottom:-18px; width:36px; height:36px; background:#333; border-radius:50%; border:6px solid #666; animation:spin 1s linear infinite; }
+.wheel.w1 { left:46px; } .wheel.w2 { right:46px; }
+@keyframes spin { to{ transform:rotate(360deg); } }
+.road { position:absolute; bottom:0; width:100%; height:38px; background:#555; }
+.dash { position:absolute; top:16px; width:44px; height:5px; background:#fff; animation:scmove 2.2s linear infinite; }
+#bubble { position:absolute; top:14px; left:50%; transform:translateX(-50%); background:#fff; border-radius:14px; padding:12px 16px; max-width:340px; box-shadow:0 6px 18px rgba(0,0,0,.25); font-family:-apple-system,sans-serif; font-size:14px; display:none; z-index:5; }
+#bubble .bub-btns { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+#bubble button { border:none; border-radius:16px; padding:7px 14px; font-size:13px; font-weight:700; cursor:pointer; }
+#bubble .b-argue { background:#f3d9d4; color:#8c2f21; }
+#bubble .b-drive { background:#d9ead9; color:#245c33; }
+#odo { position:absolute; top:12px; right:14px; background:rgba(0,0,0,.55); color:#9fe7b0; font-family:'SF Mono',Menlo,monospace; font-size:13px; padding:5px 12px; border-radius:8px; z-index:4; }
+
+/* thought object */
+.stepper { display:flex; gap:8px; margin:14px 0; font-family:-apple-system,sans-serif; font-size:13px; flex-wrap:wrap; }
+.stepper .stp { padding:6px 14px; border-radius:16px; background:#efe9de; color:var(--muted); font-weight:600; }
+.stepper .stp.on { background:var(--accent); color:#fff; }
+#tstage { min-height:240px; display:flex; align-items:center; justify-content:center; padding:16px; background:#f4f0e8; border-radius:14px; }
+#tobj { display:flex; align-items:center; justify-content:center; text-align:center; color:#fff; font-weight:700; padding:20px; font-family:-apple-system,sans-serif; transition:all .5s ease; word-break:break-word; }
+@keyframes wob1 { 0%,100%{ transform:scale(1) rotate(-2deg);} 50%{ transform:scale(1.06) rotate(2deg);} }
+@keyframes wob2 { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-14px);} }
+.tctl { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin:14px 0; font-family:-apple-system,sans-serif; font-size:13.5px; }
+.tctl label { display:block; color:var(--muted); }
+.tctl input[type=range], .tctl select { width:100%; }
+.snaps { display:flex; gap:10px; flex-wrap:wrap; margin:12px 0; }
+.snap { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 14px; font-family:-apple-system,sans-serif; font-size:12.5px; color:var(--muted); }
+.snap .sw { display:inline-block; width:16px; height:16px; border-radius:5px; vertical-align:-3px; margin-right:6px; }
+.snap b { color:var(--ink); }
+
+/* melter */
+#mstage { min-height:280px; border-radius:14px; background:#1e1a24; color:#f0e9fa; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:24px; position:relative; }
+#mword { font-family:-apple-system,sans-serif; font-weight:800; font-size:clamp(34px,8vw,68px); transition:transform .09s ease; letter-spacing:.02em; text-align:center; word-break:break-word; }
+#mword.beat { transform:scale(1.18); }
+#mhint { font-family:-apple-system,sans-serif; font-size:14px; color:#b8a8d6; text-align:center; min-height:20px; }
+#mbar { position:absolute; bottom:0; left:0; height:6px; background:linear-gradient(90deg,#7A4BA0,#D25B4A); border-radius:0 3px 3px 0; width:0%; transition:width .25s linear; }
+#mtime { position:absolute; top:12px; right:16px; font-family:'SF Mono',Menlo,monospace; font-size:13px; color:#b8a8d6; }
+</style>
 </head>
 <body>
 <nav><div class="nav-inner">
@@ -26,18 +91,19 @@
 <header class="page">
   <div class="kicker">Interactive practice</div>
   <h1>The playground</h1>
-  <p class="lede">Four of the book's metaphors as things you can do, not just read. Nothing you type leaves your browser. These are serious techniques wearing play clothes; the book insists the humor is part of the method.</p>
+  <p class="lede">Four of the book's techniques you do in real time, out loud, at human speed. Nothing you type leaves your browser.</p>
 </header>
 
 <div class="toy-panel" id="stream">
   <h2>🍃 Leaves on a stream</h2>
-  <p>The classic defusion meditation. Type a thought that keeps circling, put it on a leaf, and let the stream do what streams do. Don't push the leaves along and don't hold them back; both are the same mistake.</p>
+  <p><strong>How it works:</strong> sit comfortably, breathe once, and watch the water. Each time a thought shows up in your head, type it and press Enter: it lands on a leaf and takes about half a minute to cross. Your only job is to watch it go. Don't speed it up, don't hold it back, don't argue with it. Then wait for the next thought. Three minutes is a session.</p>
+  <div class="timer" data-minutes="3"><button>Start 3 min</button><span class="t-display"></span></div>
   <div class="toy-input">
-    <input type="text" id="leaf-input" maxlength="90" placeholder="type the thought... (e.g. 'I'm behind on everything')">
-    <button id="leaf-go">Set it afloat</button>
+    <input type="text" id="leaf-input" maxlength="90" placeholder="the thought that's here right now... then press Enter">
+    <button class="big-btn" id="leaf-go">Onto a leaf</button>
   </div>
-  <div id="streambox" style="position:relative;height:300px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#bfe0ea 0%,#8fc3d6 30%,#5f9fb8 100%)"></div>
-  <p class="toy-note">When a leaf hooks you and you drift downstream after it: that's not failure, that's the exercise. Notice it happened and put the next thought on the next leaf.</p>
+  <div id="sw"></div>
+  <div class="coach" id="leaf-coach">Notice the next thought that shows up. Type it.</div>
   <div class="ex-actions">
     <label class="done-check"><input type="checkbox" data-id="toy-stream"> practiced today</label>
   </div>
@@ -45,25 +111,31 @@
 
 <div class="toy-panel" id="bus">
   <h2>🚌 Passengers on the bus</h2>
-  <p>You drive the bus called Your Life. Memories, sensations and thoughts are passengers. Stopping to throw them off means going nowhere; arguing with them means letting go of the wheel. Board yours and keep driving.</p>
+  <p><strong>How it works:</strong> first tell the bus where it's going: something you actually care about. Then board your passengers: the worries, memories and thoughts that ride along. Every so often one of them will stand up and yell at you. You get the same choice you get in real life: pull over to argue with them, or keep driving. Try both and watch the odometer.</p>
   <div class="toy-input">
-    <input type="text" id="pass-input" maxlength="40" placeholder="who's boarding? (e.g. 'fear of the deadline')">
-    <button id="pass-go">Let them on</button>
+    <input type="text" id="dest-input" maxlength="34" placeholder="Step 1 — where is this bus headed? (e.g. 'my own business')">
+    <button class="big-btn" id="dest-go">Set destination</button>
   </div>
-  <div id="busworld">
-    <div class="scenery" style="animation-duration:9s">🌳</div>
-    <div class="scenery" style="animation-duration:13s;animation-delay:-4s">🏠</div>
-    <div class="scenery" style="animation-duration:11s;animation-delay:-7s">🌲</div>
-    <div class="scenery" style="animation-duration:16s;animation-delay:-2s">⛰️</div>
-    <div id="bus">
+  <div class="toy-input">
+    <input type="text" id="pass-input" maxlength="34" placeholder="Step 2 — who's boarding? (e.g. 'fear of failing')" disabled>
+    <button class="big-btn" id="pass-go" disabled>Let them on</button>
+  </div>
+  <div id="bw">
+    <div id="odo">0.0 km</div>
+    <div id="bubble"></div>
+    <div class="sc" style="animation-duration:9s">🌳</div>
+    <div class="sc" style="animation-duration:13s;animation-delay:-4s">🏠</div>
+    <div class="sc" style="animation-duration:11s;animation-delay:-7s">🌲</div>
+    <div class="sc" style="animation-duration:16s;animation-delay:-2s">⛰️</div>
+    <div id="thebus">
       <div class="driver">🧑‍✈️</div>
-      <div style="font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;color:#7a5c10;margin-bottom:6px">YOUR LIFE 🚍 ALL PASSENGERS WELCOME</div>
+      <div id="destsign">→ SET A DESTINATION</div>
       <div class="windows" id="bus-windows"></div>
       <div class="wheel w1"></div><div class="wheel w2"></div>
     </div>
     <div class="road"><div class="dash" style="animation-delay:0s"></div><div class="dash" style="animation-delay:-.7s"></div><div class="dash" style="animation-delay:-1.4s"></div></div>
   </div>
-  <p class="toy-note">Notice: the bus never stopped once while they boarded. You choose the route; they just ride. The book's paper version: write your rowdiest passengers on cards, carry them for a week, pat the pocket to welcome them aboard.</p>
+  <div class="coach" id="bus-coach"></div>
   <div class="ex-actions">
     <label class="done-check"><input type="checkbox" data-id="toy-bus"> practiced today</label>
   </div>
@@ -71,13 +143,19 @@
 
 <div class="toy-panel" id="object">
   <h2>🫧 Thought-o-matic</h2>
-  <p>From the book's "see it as an object": give the thought a size, shape, color, speed and texture, and it becomes something you look <em>at</em> instead of <em>from</em>. Build yours:</p>
+  <p><strong>How it works:</strong> the book's "see it as an object", in its real three-round shape. Round 1: build the thought. Round 2: set it aside and build your <em>reaction</em> to it. Round 3: rebuild the original as it feels now, and compare it with round 1. It usually comes back smaller.</p>
+  <div class="stepper">
+    <span class="stp on" id="stp1">1 · The thought</span>
+    <span class="stp" id="stp2">2 · Your reaction to it</span>
+    <span class="stp" id="stp3">3 · The thought, revisited</span>
+  </div>
+  <div class="coach" id="t-coach">Type the thought that's bothering you, then answer with the controls: if it had a size, how big would it be? A shape? A color? A speed? A texture? Take a few seconds per question; actually look at it between changes.</div>
   <div class="toy-input">
     <input type="text" id="tobj-input" maxlength="60" placeholder="the thought (e.g. 'I always mess this up')">
   </div>
-  <div class="tobj-controls">
-    <div><label>Size</label><input type="range" id="tc-size" min="60" max="260" value="150"></div>
-    <div><label>Speed / wobble</label><input type="range" id="tc-speed" min="0" max="10" value="4"></div>
+  <div class="tctl">
+    <div><label>Size</label><input type="range" id="tc-size" min="60" max="260" value="140"></div>
+    <div><label>Speed</label><input type="range" id="tc-speed" min="0" max="10" value="3"></div>
     <div><label>Shape</label><select id="tc-shape">
       <option value="blob">blob</option><option value="ball">ball</option><option value="brick">brick</option><option value="cloud">cloud</option><option value="spiky">spiky</option>
     </select></div>
@@ -86,56 +164,81 @@
       <option value="glossy">glossy</option><option value="fuzzy">fuzzy</option><option value="rough">rough</option>
     </select></div>
   </div>
-  <div id="tobj-stage"><div id="tobj">type a thought above</div></div>
-  <p class="toy-note">Answered all five? Now do round two on your <em>reaction</em> to the thought ("I hate that this is here"). Then rebuild the original and check: same size, same color, same speed? It usually isn't.</p>
+  <div id="tstage"><div id="tobj">type a thought above</div></div>
+  <div class="snaps" id="snaps"></div>
   <div class="ex-actions">
+    <button class="big-btn" id="t-next">Save round 1 → next</button>
+    <button class="big-btn secondary" id="t-reset" style="display:none">Start over</button>
     <label class="done-check"><input type="checkbox" data-id="toy-object"> practiced today</label>
   </div>
 </div>
 
 <div class="toy-panel" id="melt">
   <h2>🫠 Word melter</h2>
-  <p>Two techniques in one: rapid repetition until a harsh word turns to noise (the book uses it on self-labels like "bad parent"), and reversal ("Задом наперед"). Type the word that bites:</p>
+  <p><strong>How it works:</strong> the rapid-repetition technique (the book aims it at self-labels like "lazy" or "bad parent"; one word works best). You will say the word <em>out loud</em> once per flash. It starts at one per second and speeds up to about three per second, which is as fast as a mouth goes. Forty seconds total, then it stops on its own. If your tongue trips, good: that's the meaning coming loose. Do it somewhere you can talk to yourself.</p>
   <div class="toy-input">
-    <input type="text" id="melt-input" maxlength="30" placeholder="the word (e.g. 'lazy')">
-    <button id="melt-go">Melt it</button>
+    <input type="text" id="melt-input" maxlength="24" placeholder="the word that bites (one word)">
+    <button class="big-btn" id="melt-go">Start · 40 s</button>
   </div>
-  <div id="melt-stage"><span style="opacity:.5">the word will fill this space, faster and faster, then flip backwards...</span></div>
-  <p class="toy-note">Say it out loud along with the screen if you're alone. Around thirty seconds in, meaning falls off and only sound is left. That's all it ever was: sound, plus your history.</p>
-  <div class="ex-actions">
+  <div id="mstage">
+    <div id="mtime"></div>
+    <div id="mword" style="opacity:.4">your word appears here</div>
+    <div id="mhint">say it out loud, once per flash</div>
+    <div id="mbar"></div>
+  </div>
+  <div class="ex-actions" style="margin-top:14px">
+    <button class="big-btn secondary" id="melt-stop" style="display:none">Stop</button>
+    <button class="big-btn secondary" id="melt-flip" style="display:none">Show it backwards</button>
     <label class="done-check"><input type="checkbox" data-id="toy-melt"> practiced today</label>
   </div>
 </div>
 
 <div class="callout tip"><span class="label">Where these come from</span>
-Leaves on a stream and passengers on the bus are canonical ACT exercises referenced throughout the book (chapters 9, 12, 15). The object builder is chapter 9's "see it as an object". The melter combines chapter 9's word reversal with the rapid-repeat practice from the stress section of chapter 15. Full written versions live on the <a href="defusion.html">Defusion</a> page.</div>
+Leaves on a stream and passengers on the bus are canonical ACT exercises the book returns to repeatedly (chapters 9, 12, 15). The object builder is chapter 9's "see it as an object", three rounds included. The melter is the rapid-repeat practice from chapter 15's stress section plus chapter 9's reversal trick. Full written versions: <a href="defusion.html">Defusion</a>.</div>
 
 </main>
 <footer><div class="inner">Personal study guide based on Steven C. Hayes, <em>A Liberated Mind</em> (2019). Nothing you type leaves your browser.</div></footer>
 <script src="js/app.js"></script>
 <script>
-/* --- Leaves on a stream --- */
-const box = document.getElementById('streambox');
+/* ================= Leaves on a stream ================= */
+const sw = document.getElementById('sw');
 for (let i = 0; i < 7; i++) {
   const r = document.createElement('div');
-  r.className = 'ripple';
+  r.className = 'rip';
   r.style.top = (12 + Math.random() * 76) + '%';
   r.style.width = (40 + Math.random() * 90) + 'px';
-  r.style.left = '-130px';
-  r.style.position = 'absolute';
-  r.style.animationDuration = (5 + Math.random() * 6) + 's';
-  r.style.animationDelay = (-Math.random() * 6) + 's';
-  box.appendChild(r);
+  r.style.animationDuration = (7 + Math.random() * 7) + 's';
+  r.style.animationDelay = (-Math.random() * 7) + 's';
+  sw.appendChild(r);
 }
+const LANES = [6, 24, 42, 60, 78];         // fixed lanes so leaves don't stack
+let laneIdx = 0;
 function launchLeaf(text) {
+  if (sw.querySelectorAll('.lf').length >= 5) sw.querySelector('.lf').remove();
   const l = document.createElement('div');
-  l.className = 'leaf';
-  l.textContent = text;
-  l.style.top = (8 + Math.random() * 62) + '%';
-  l.style.animationDuration = (11 + Math.random() * 8) + 's';
-  box.appendChild(l);
-  setTimeout(() => l.remove(), 20000);
+  l.className = 'lf';
+  l.innerHTML = '<div class="lf-in"></div>';
+  l.firstChild.textContent = text;
+  l.style.top = LANES[laneIdx++ % LANES.length] + '%';
+  l.style.animationDuration = (26 + Math.random() * 10) + 's';   // ~30 s to cross: watchable
+  l.firstChild.style.animationDelay = (-Math.random() * 4) + 's';
+  sw.appendChild(l);
+  setTimeout(() => l.remove(), 38000);
 }
+const COACH = [
+  'Notice the next thought that shows up. Type it.',
+  'Don\'t push the leaves along. Don\'t hold them back. Both are the same mistake.',
+  'Drifted downstream after a leaf? That IS the exercise. Come back, load the next one.',
+  'Feelings ride too: "tight chest" fits on a leaf.',
+  'Nothing coming? Put "nothing is coming" on a leaf.',
+  '"This is silly" also goes on a leaf.'
+];
+let coachN = 0;
+setInterval(() => {
+  const c = document.getElementById('leaf-coach');
+  c.style.opacity = 0;
+  setTimeout(() => { coachN++; c.textContent = COACH[coachN % COACH.length]; c.style.opacity = 1; }, 400);
+}, 16000);
 document.getElementById('leaf-go').addEventListener('click', () => {
   const i = document.getElementById('leaf-input');
   if (!i.value.trim()) return;
@@ -144,7 +247,23 @@ document.getElementById('leaf-go').addEventListener('click', () => {
 });
 document.getElementById('leaf-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('leaf-go').click(); });
 
-/* --- Bus --- */
+/* ================= Passengers on the bus ================= */
+const bw = document.getElementById('bw');
+const busCoach = document.getElementById('bus-coach');
+let driving = true, km = 0, heckleTimer = null;
+setInterval(() => {                                   // odometer: only moves while driving
+  if (driving) { km += 0.1; document.getElementById('odo').textContent = km.toFixed(1) + ' km'; }
+}, 500);
+document.getElementById('dest-go').addEventListener('click', () => {
+  const d = document.getElementById('dest-input').value.trim();
+  if (!d) return;
+  document.getElementById('destsign').textContent = '→ ' + d.toUpperCase();
+  document.getElementById('pass-input').disabled = false;
+  document.getElementById('pass-go').disabled = false;
+  busCoach.textContent = 'Destination set. Now board the passengers who always come along on this route.';
+  document.getElementById('pass-input').focus();
+});
+document.getElementById('dest-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('dest-go').click(); });
 const FACES = ['👹','😱','🙄','😤','👻','🤯','😰','🧌'];
 document.getElementById('pass-go').addEventListener('click', () => {
   const i = document.getElementById('pass-input');
@@ -153,78 +272,182 @@ document.getElementById('pass-go').addEventListener('click', () => {
   const w = document.getElementById('bus-windows');
   const p = document.createElement('div');
   p.className = 'pass';
-  p.innerHTML = `<span class="pface">${FACES[Math.floor(Math.random() * FACES.length)]}</span>${t}`;
+  p.innerHTML = `<span class="pface">${FACES[Math.floor(Math.random() * FACES.length)]}</span>`;
+  p.appendChild(document.createTextNode(t));
   w.appendChild(p);
-  if (w.children.length > 8) w.removeChild(w.firstChild);
+  if (w.children.length > 7) w.removeChild(w.firstChild);
+  busCoach.textContent = 'Notice: the bus never stopped while they boarded. Add more, or just drive and wait.';
   i.value = ''; i.focus();
+  if (!heckleTimer) heckleTimer = setTimeout(heckle, 6000);   // first heckle 6 s after first passenger
 });
 document.getElementById('pass-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('pass-go').click(); });
+const TAUNTS = ['Turn this bus around!', 'You\'ll never make it there.', 'Pull over. NOW.', 'This route is a mistake and you know it.', 'Everyone can see you don\'t belong on this road.'];
+function heckle() {
+  const passengers = [...document.querySelectorAll('#bus-windows .pass')];
+  if (!passengers.length || !driving) { heckleTimer = setTimeout(heckle, 8000); return; }
+  const p = passengers[Math.floor(Math.random() * passengers.length)];
+  p.classList.add('yelling');
+  const name = p.textContent;
+  const bub = document.getElementById('bubble');
+  bub.innerHTML = `<b>«${name}»</b> stands up and yells: <i>"${TAUNTS[Math.floor(Math.random() * TAUNTS.length)]}"</i>
+    <div class="bub-btns"><button class="b-argue">Pull over & argue</button><button class="b-drive">Keep driving</button></div>`;
+  bub.style.display = 'block';
+  bub.querySelector('.b-argue').onclick = () => {
+    driving = false; bw.classList.add('stopped');
+    bub.innerHTML = '<b>The bus is stopped.</b> You\'re arguing. The scenery isn\'t moving. The heckler is still aboard, and now you\'re both late.';
+    busCoach.textContent = 'Check the odometer: arguing costs distance and changes nothing about who\'s on the bus.';
+    setTimeout(() => {
+      driving = true; bw.classList.remove('stopped'); bub.style.display = 'none'; p.classList.remove('yelling');
+      busCoach.textContent = 'Rolling again. Same passengers, same driver, same destination.';
+      heckleTimer = setTimeout(heckle, 9000 + Math.random() * 8000);
+    }, 5000);
+  };
+  bub.querySelector('.b-drive').onclick = () => {
+    bub.style.display = 'none'; p.classList.remove('yelling');
+    busCoach.textContent = '«' + name + '» keeps grumbling in the back. You keep the wheel. That\'s the whole skill.';
+    heckleTimer = setTimeout(heckle, 9000 + Math.random() * 8000);
+  };
+}
 
-/* --- Thought object --- */
+/* ================= Thought-o-matic ================= */
 const tobj = document.getElementById('tobj');
+let tRound = 1, tSnaps = [];
+function tParams() {
+  return {
+    text: document.getElementById('tobj-input').value.trim(),
+    size: +document.getElementById('tc-size').value,
+    speed: +document.getElementById('tc-speed').value,
+    shape: document.getElementById('tc-shape').value,
+    color: document.getElementById('tc-color').value,
+    texture: document.getElementById('tc-texture').value
+  };
+}
 function renderTobj() {
-  const text = document.getElementById('tobj-input').value.trim() || 'type a thought above';
-  const size = +document.getElementById('tc-size').value;
-  const speed = +document.getElementById('tc-speed').value;
-  const shape = document.getElementById('tc-shape').value;
-  const color = document.getElementById('tc-color').value;
-  const texture = document.getElementById('tc-texture').value;
-  tobj.textContent = text;
-  tobj.style.width = size + 'px';
-  tobj.style.minHeight = (shape === 'brick' ? size * 0.6 : size) + 'px';
-  tobj.style.fontSize = Math.max(12, size / 11) + 'px';
+  const p = tParams();
+  tobj.textContent = p.text || 'type a thought above';
+  tobj.style.width = p.size + 'px';
+  tobj.style.minHeight = (p.shape === 'brick' ? p.size * 0.6 : p.size) + 'px';
+  tobj.style.fontSize = Math.max(12, p.size / 11) + 'px';
   const radii = { blob: '58% 42% 61% 39% / 45% 55% 48% 52%', ball: '50%', brick: '8px', cloud: '48% 52% 46% 54% / 62% 58% 42% 38%', spiky: '18% 82% 22% 78% / 76% 24% 80% 20%' };
-  tobj.style.borderRadius = radii[shape];
-  tobj.style.background = texture === 'glossy'
-    ? `radial-gradient(circle at 30% 25%, #ffffff88, transparent 40%), ${color}`
-    : texture === 'rough'
-    ? `repeating-linear-gradient(45deg, #00000022 0 4px, transparent 4px 8px), ${color}`
-    : color;
-  tobj.style.filter = texture === 'fuzzy' ? 'blur(1.2px)' : 'none';
-  tobj.style.boxShadow = texture === 'fuzzy' ? `0 0 26px ${color}88` : '0 8px 20px rgba(0,0,0,.18)';
-  tobj.style.animation = speed === 0 ? 'none' : `${speed > 5 ? 'wob2' : 'wob1'} ${(11 - speed) / 4}s ease-in-out infinite`;
+  tobj.style.borderRadius = radii[p.shape];
+  tobj.style.background = p.texture === 'glossy'
+    ? `radial-gradient(circle at 30% 25%, #ffffff88, transparent 40%), ${p.color}`
+    : p.texture === 'rough'
+    ? `repeating-linear-gradient(45deg, #00000022 0 4px, transparent 4px 8px), ${p.color}`
+    : p.color;
+  tobj.style.filter = p.texture === 'fuzzy' ? 'blur(1.2px)' : 'none';
+  tobj.style.boxShadow = p.texture === 'fuzzy' ? `0 0 26px ${p.color}88` : '0 8px 20px rgba(0,0,0,.18)';
+  tobj.style.animation = p.speed === 0 ? 'none' : `${p.speed > 5 ? 'wob2' : 'wob1'} ${(11 - p.speed) / 4}s ease-in-out infinite`;
 }
 ['tobj-input','tc-size','tc-speed','tc-shape','tc-color','tc-texture'].forEach(id =>
   document.getElementById(id).addEventListener('input', renderTobj));
 renderTobj();
-
-/* --- Word melter --- */
-let meltTimer = null;
-document.getElementById('melt-go').addEventListener('click', () => {
-  const word = document.getElementById('melt-input').value.trim();
-  if (!word) return;
-  const stage = document.getElementById('melt-stage');
-  stage.innerHTML = '';
-  clearInterval(meltTimer);
-  let n = 0, delay = 520;
-  const start = Date.now();
-  function drop() {
-    const el = document.createElement('span');
-    const t = (Date.now() - start) / 1000;
-    let w = word;
-    if (t > 18) w = word.split('').reverse().join('');            // flip backwards
-    else if (t > 12 && Math.random() < .5) w = word.split('').sort(() => Math.random() - .5).join(''); // scramble
-    el.textContent = w;
-    el.style.fontSize = (14 + Math.random() * 26) + 'px';
-    el.style.opacity = .4 + Math.random() * .6;
-    el.style.color = ['#f0e9fa','#c9b6e4','#9fd6c3','#e8c98a'][n % 4];
-    stage.appendChild(el);
-    if (stage.children.length > 160) stage.removeChild(stage.firstChild);
-    n++;
-    if (t > 30) {
-      clearInterval(meltTimer);
-      const fin = document.createElement('span');
-      fin.style.cssText = 'width:100%;font-size:18px;color:#9fd6c3;margin-top:10px';
-      fin.textContent = '...just sounds, right? (' + word + ' → ' + word.split('').reverse().join('') + ')';
-      stage.appendChild(fin);
-      return;
-    }
-    delay = Math.max(70, delay * 0.93);
-    clearInterval(meltTimer);
-    meltTimer = setInterval(drop, delay);
+function addSnap(label, p) {
+  const s = document.createElement('div');
+  s.className = 'snap';
+  s.innerHTML = `<span class="sw" style="background:${p.color}"></span><b>${label}:</b> "${p.text}" · ${p.shape}, size ${p.size}, speed ${p.speed}, ${p.texture}`;
+  document.getElementById('snaps').appendChild(s);
+}
+const T_STEPS = {
+  2: { coach: 'Round 2. Set that thought aside. Now build your REACTION to it: what does your mind say about having this thought? ("I hate that it\'s here", "not this again"). Type the reaction, then give IT a size, shape, color, speed, texture.',
+       placeholder: 'the reaction (e.g. "I hate that this keeps coming back")', btn: 'Save round 2 → next' },
+  3: { coach: 'Round 3. Bring back the original thought. Type it again and rebuild it exactly as it feels RIGHT NOW, without looking at round 1. Then press Compare.',
+       placeholder: 'the original thought, as it feels now', btn: 'Compare with round 1' }
+};
+document.getElementById('t-next').addEventListener('click', () => {
+  const p = tParams();
+  if (!p.text) { document.getElementById('tobj-input').focus(); return; }
+  if (tRound === 1 || tRound === 2) {
+    tSnaps.push(p);
+    addSnap('Round ' + tRound, p);
+    tRound++;
+    document.getElementById('stp' + tRound).classList.add('on');
+    document.getElementById('t-coach').textContent = T_STEPS[tRound].coach;
+    document.getElementById('t-next').textContent = T_STEPS[tRound].btn;
+    document.getElementById('tobj-input').value = '';
+    document.getElementById('tobj-input').placeholder = T_STEPS[tRound].placeholder;
+    renderTobj();
+  } else {
+    const a = tSnaps[0], b = p;
+    addSnap('Round 3', p);
+    const shrunk = b.size < a.size, slowed = b.speed < a.speed;
+    let verdict = shrunk || slowed
+      ? `Compare: round 1 was size ${a.size}, speed ${a.speed}; now it's size ${b.size}, speed ${b.speed}. It came back ${shrunk ? 'smaller' : ''}${shrunk && slowed ? ' and ' : ''}${slowed ? 'slower' : ''}. That's defusion working.`
+      : `Compare: round 1 was size ${a.size}, speed ${a.speed}; now size ${b.size}, speed ${b.speed}. It didn't shrink, and that's fine too: you still spent two minutes looking AT it instead of out of it.`;
+    document.getElementById('t-coach').textContent = verdict;
+    document.getElementById('t-next').style.display = 'none';
+    document.getElementById('t-reset').style.display = 'inline-block';
   }
-  meltTimer = setInterval(drop, delay);
 });
+document.getElementById('t-reset').addEventListener('click', () => {
+  tRound = 1; tSnaps = [];
+  document.getElementById('snaps').innerHTML = '';
+  document.getElementById('stp2').classList.remove('on');
+  document.getElementById('stp3').classList.remove('on');
+  document.getElementById('t-coach').textContent = 'Type the thought that\'s bothering you, then answer with the controls: if it had a size, how big would it be? A shape? A color? A speed? A texture?';
+  document.getElementById('t-next').textContent = 'Save round 1 → next';
+  document.getElementById('t-next').style.display = 'inline-block';
+  document.getElementById('t-reset').style.display = 'none';
+  document.getElementById('tobj-input').value = '';
+  document.getElementById('tobj-input').placeholder = 'the thought (e.g. \'I always mess this up\')';
+  renderTobj();
+});
+
+/* ================= Word melter (spoken metronome) ================= */
+/* Pace: 0-10 s at 1/s (warm-up), 10-25 s ramp 1/s → ~2.8/s, 25-40 s hold. ~75 reps total. */
+let meltRun = null;
+const mword = document.getElementById('mword'), mhint = document.getElementById('mhint'),
+      mbar = document.getElementById('mbar'), mtime = document.getElementById('mtime');
+function meltInterval(t) {
+  if (t < 10) return 1000;
+  if (t < 25) return 1000 - (t - 10) / 15 * 640;   // 1000 ms → 360 ms
+  return 360;
+}
+function stopMelt(finished, word) {
+  meltRun = null;
+  document.getElementById('melt-go').style.display = 'inline-block';
+  document.getElementById('melt-stop').style.display = 'none';
+  mword.classList.remove('beat');
+  if (finished) {
+    mword.style.opacity = .9;
+    mhint.textContent = 'Stop. Sit for a second. Is the meaning still attached, or is it just a sound your mouth makes?';
+    const flip = document.getElementById('melt-flip');
+    flip.style.display = 'inline-block';
+    flip.onclick = () => {
+      mword.textContent = word.split('').reverse().join('');
+      mhint.textContent = 'Same letters, backwards. It was always just letters.';
+    };
+  } else {
+    mhint.textContent = 'Stopped. Start again when ready.';
+  }
+}
+document.getElementById('melt-go').addEventListener('click', () => {
+  const word = document.getElementById('melt-input').value.trim().split(/\s+/)[0];
+  if (!word) { document.getElementById('melt-input').focus(); return; }
+  if (meltRun) return;
+  document.getElementById('melt-flip').style.display = 'none';
+  document.getElementById('melt-go').style.display = 'none';
+  document.getElementById('melt-stop').style.display = 'inline-block';
+  mword.textContent = word;
+  mword.style.opacity = 1;
+  const t0 = Date.now();
+  const TOTAL = 40;
+  function beat() {
+    const t = (Date.now() - t0) / 1000;
+    if (!meltRun) return;
+    if (t >= TOTAL) { stopMelt(true, word); return; }
+    mword.classList.add('beat');
+    setTimeout(() => mword.classList.remove('beat'), 90);
+    mbar.style.width = (t / TOTAL * 100) + '%';
+    mtime.textContent = Math.ceil(TOTAL - t) + ' s';
+    mhint.textContent = t < 10 ? 'say it out loud, once per flash'
+                      : t < 25 ? 'speeding up — stay with it'
+                      : 'as fast as a mouth goes — keep going, tripping is the point';
+    meltRun = setTimeout(beat, meltInterval(t));
+  }
+  meltRun = setTimeout(beat, 50);
+});
+document.getElementById('melt-stop').addEventListener('click', () => { clearTimeout(meltRun); stopMelt(false, ''); });
 document.getElementById('melt-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('melt-go').click(); });
 </script>
 </body>
